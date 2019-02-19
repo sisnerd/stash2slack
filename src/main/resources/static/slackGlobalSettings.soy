@@ -18,6 +18,7 @@
  * @param slackNotificationsNeedsWorkEnabled
  * @param slackNotificationsEnabledForPush
  * @param slackNotificationsEnabledForPersonal
+ * @param slackNotificationsRequireChannelName
  * @param notificationLevel
  * @param notificationPrLevel
  * @param notificationLevels
@@ -138,9 +139,14 @@
                     {param description: getText('stash2slack.global.settings.slack.personal.enabled.description') /}
                 {/call}
 
-
-
                 <h4>Channel and hook name</h4>
+
+                {call widget.aui.form.checkbox}
+                    {param id: 'slackNotificationsRequireChannelName' /}
+                    {param labelContent: getText('stash2slack.global.settings.slack.notifications.require.channel.name.label') /}
+                    {param checked: $slackNotificationsRequireChannelName /}
+                    {param description: getText('stash2slack.global.settings.slack.notifications.require.channel.name.description') /}
+                {/call}
                 {call widget.aui.form.text}
                     {param id: 'slackChannelName' /}
                     {param labelContent: getText('stash2slack.global.settings.slack.channel') /}

@@ -12,6 +12,7 @@ import com.atlassian.bitbucket.i18n.I18nService;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.pragbits.bitbucketserver.soy.SelectFieldOptions;
+import com.pragbits.bitbucketserver.tools.SettingsSelector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class SlackSettingsServlet extends HttpServlet {
     private final PageBuilderService pageBuilderService;
     private final SlackSettingsService slackSettingsService;
+    private final SlackGlobalSettingsService slackGlobalSettingsService;
     private final RepositoryService repositoryService;
     private final SoyTemplateRenderer soyTemplateRenderer;
     private final PermissionValidationService validationService;
@@ -32,12 +34,14 @@ public class SlackSettingsServlet extends HttpServlet {
 
     public SlackSettingsServlet(PageBuilderService pageBuilderService,
                                     SlackSettingsService slackSettingsService,
+                                    SlackGlobalSettingsService slackGlobalSettingsService,
                                     RepositoryService repositoryService,
                                     SoyTemplateRenderer soyTemplateRenderer,
                                     PermissionValidationService validationService,
                                     I18nService i18nService) {
         this.pageBuilderService = pageBuilderService;
         this.slackSettingsService = slackSettingsService;
+        this.slackGlobalSettingsService = slackGlobalSettingsService;
         this.repositoryService = repositoryService;
         this.soyTemplateRenderer = soyTemplateRenderer;
         this.validationService = validationService;
@@ -84,6 +88,7 @@ public class SlackSettingsServlet extends HttpServlet {
                         "on".equals(req.getParameter("slackNotificationsNeedsWorkEnabled")),
                         notificationLevel,
                         notificationPrLevel,
+                        "on".equals(req.getParameter("slackNotificationsRequireChannelName")),
                         req.getParameter("slackChannelName"),
                         req.getParameter("slackWebHookUrl").trim(),
                         req.getParameter("slackUsername").trim(),
@@ -122,6 +127,8 @@ public class SlackSettingsServlet extends HttpServlet {
 
     private void doView(Repository repository, HttpServletResponse response)
             throws ServletException, IOException {
+        SettingsSelector settingsSelector = new SettingsSelector(slackSettingsService,  slackGlobalSettingsService, repository);
+        SlackSettings resolvedSlackSettings = settingsSelector.getResolvedSlackSettings();
         validationService.validateForRepository(repository, Permission.REPO_ADMIN);
         SlackSettings slackSettings = slackSettingsService.getSlackSettings(repository);
         render(response,
@@ -129,6 +136,7 @@ public class SlackSettingsServlet extends HttpServlet {
                 ImmutableMap.<String, Object>builder()
                         .put("repository", repository)
                         .put("slackSettings", slackSettings)
+                        .put("resolvedSlackSettings", resolvedSlackSettings)
                         .put("notificationLevels", new SelectFieldOptions(NotificationLevel.values()).toSoyStructure())
                         .build()
         );

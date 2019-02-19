@@ -8,6 +8,7 @@ import com.google.common.base.Strings;
 public class DefaultGlobalSlackSettingsService implements SlackGlobalSettingsService {
     private static final String KEY_GLOBAL_SETTING_HOOK_URL = "stash2slack.globalsettings.hookurl";
     private static final String KEY_GLOBAL_SETTING_CHANNEL_NAME = "stash2slack.globalsettings.channelname";
+    private static final String KEY_GLOBAL_SETTING_NOTIFICATIONS_CHANNEL_NAME_REQUIRED = "stash2slack.globalsettings.slacknotificationschannelnamerequired";
     private static final String KEY_GLOBAL_SETTING_NOTIFICATIONS_ENABLED = "stash2slack.globalsettings.slacknotificationsenabled";
     private static final String KEY_GLOBAL_SETTING_NOTIFICATIONS_OPENED_ENABLED = "stash2slack.globalsettings.slacknotificationsopenedenabled";
     private static final String KEY_GLOBAL_SETTING_NOTIFICATIONS_REOPENED_ENABLED = "stash2slack.globalsettings.slacknotificationsreopenedenabled";
@@ -58,6 +59,16 @@ public class DefaultGlobalSlackSettingsService implements SlackGlobalSettingsSer
         } else {
             pluginSettings.put(KEY_GLOBAL_SETTING_CHANNEL_NAME, null);
         }
+    }
+
+    @Override
+    public boolean getSlackNotificationsRequireChannelName() {
+        return getBoolean(KEY_GLOBAL_SETTING_NOTIFICATIONS_CHANNEL_NAME_REQUIRED);
+    }
+
+    @Override
+    public void setSlackNotificationsRequireChannelName(boolean value) {
+        setBoolean(KEY_GLOBAL_SETTING_NOTIFICATIONS_CHANNEL_NAME_REQUIRED, value);
     }
 
     @Override

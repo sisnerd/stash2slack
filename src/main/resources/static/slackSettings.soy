@@ -3,6 +3,7 @@
 /**
  * @param repository
  * @param slackSettings
+ * @param resolvedSlackSettings
  * @param notificationLevels
  **/
 {template .viewSlackSettings}
@@ -137,6 +138,7 @@
                     {param labelContent: getText('stash2slack.local.settings.slack.channel') /}
                     {param initialValue: $slackSettings.slackChannelName /}
                     {param description: getText('stash2slack.local.settings.slack.channel.description') /}
+                    {param required: $resolvedSlackSettings.slackNotificationsRequireChannelName /}
                 {/call}
                 {call widget.aui.form.text}
                     {param id: 'slackWebHookUrl' /}

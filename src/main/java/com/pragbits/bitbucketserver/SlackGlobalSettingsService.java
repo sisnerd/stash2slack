@@ -47,6 +47,9 @@ public interface SlackGlobalSettingsService {
     NotificationLevel getNotificationPrLevel();
     void setNotificationPrLevel(String value);
 
+    boolean getSlackNotificationsRequireChannelName();
+    void setSlackNotificationsRequireChannelName(boolean value);
+
     boolean getSlackNotificationsEnabledForPersonal();
     void setSlackNotificationsEnabledForPersonal(boolean value);
 

@@ -77,6 +77,7 @@ public class SlackGlobalSettingsServlet extends HttpServlet {
         }
         slackGlobalSettingsService.setNotificationPrLevel(notificationPrLevel.toString());
 
+        slackGlobalSettingsService.setSlackNotificationsRequireChannelName(bool(req, "slackNotificationsRequireChannelName"));
         slackGlobalSettingsService.setSlackNotificationsEnabledForPush(bool(req, "slackNotificationsEnabledForPush"));
         slackGlobalSettingsService.setSlackNotificationsEnabledForPersonal(bool(req, "slackNotificationsEnabledForPersonal"));
         slackGlobalSettingsService.setSlackNotificationsNeedsWorkEnabled(bool(req, "slackNotificationsNeedsWorkEnabled"));
@@ -115,6 +116,7 @@ public class SlackGlobalSettingsServlet extends HttpServlet {
         Boolean slackNotificationsNeedsWorkEnabled = slackGlobalSettingsService.getSlackNotificationsNeedsWorkEnabled();
         String notificationLevel = slackGlobalSettingsService.getNotificationLevel().toString();
         String notificationPrLevel = slackGlobalSettingsService.getNotificationPrLevel().toString();
+        Boolean slackNotificationsRequireChannelName = slackGlobalSettingsService.getSlackNotificationsRequireChannelName();
 
         render(response,
                 "bitbucketserver.page.slack.global.settings.viewGlobalSlackSettings",
@@ -135,6 +137,7 @@ public class SlackGlobalSettingsServlet extends HttpServlet {
                         .put("slackNotificationsNeedsWorkEnabled", slackNotificationsNeedsWorkEnabled)
                         .put("notificationLevel", notificationLevel)
                         .put("notificationPrLevel", notificationPrLevel)
+                        .put("slackNotificationsRequireChannelName", slackNotificationsRequireChannelName)
                         .put("notificationLevels", new SelectFieldOptions(NotificationLevel.values()).toSoyStructure())
                         .put("slackUsername", userName)
                         .put("slackIconUrl", iconUrl)

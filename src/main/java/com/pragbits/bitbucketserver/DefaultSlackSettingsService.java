@@ -36,6 +36,7 @@ public class DefaultSlackSettingsService implements SlackSettingsService {
             false,  // needs work
             NotificationLevel.VERBOSE,
             NotificationLevel.VERBOSE,
+            false,  // require channel name
             "",         // channel name override
             "",         // webhook override
             "",         // username override
@@ -56,6 +57,7 @@ public class DefaultSlackSettingsService implements SlackSettingsService {
     static final String KEY_SLACK_NOTIFICATION_PUSH = "slackNotificationsEnabledForPush";
     static final String KEY_SLACK_NOTIFICATION_PERSONAL = "slackNotificationsEnabledForPersonal";
     static final String KEY_SLACK_NOTIFICATION_NEEDS_WORK = "slackNotificationsNeedsWorkEnabled";
+    static final String KEY_SLACK_NOTIFICATION_REQUIRE_CHANNEL_NAME = "slackNotificationsRequireChannelName";
     static final String KEY_SLACK_NOTIFICATION_LEVEL = "slackNotificationLevel";
     static final String KEY_SLACK_NOTIFICATION_PR_LEVEL = "slackNotificationPrLevel";
     static final String KEY_SLACK_CHANNEL_NAME = "slackChannelName";
@@ -126,6 +128,7 @@ public class DefaultSlackSettingsService implements SlackSettingsService {
                 .put(KEY_SLACK_NOTIFICATION_NEEDS_WORK, Boolean.toString(settings.isSlackNotificationsNeedsWorkEnabled()))
                 .put(KEY_SLACK_NOTIFICATION_LEVEL, settings.getNotificationLevel().toString())
                 .put(KEY_SLACK_NOTIFICATION_PR_LEVEL, settings.getNotificationPrLevel().toString())
+                .put(KEY_SLACK_NOTIFICATION_REQUIRE_CHANNEL_NAME, Boolean.toString(settings.isSlackNotificationsRequireChannelName()))
                 .put(KEY_SLACK_CHANNEL_NAME, settings.getSlackChannelName().isEmpty() ? " " : settings.getSlackChannelName())
                 .put(KEY_SLACK_WEBHOOK_URL, settings.getSlackWebHookUrl().isEmpty() ? " " : settings.getSlackWebHookUrl())
                 .put(KEY_SLACK_USER_NAME, settings.getSlackUsername().isEmpty() ? " " : settings.getSlackUsername())
@@ -155,6 +158,7 @@ public class DefaultSlackSettingsService implements SlackSettingsService {
                 Boolean.parseBoolean(settings.get(KEY_SLACK_NOTIFICATION_NEEDS_WORK)),
                 settings.containsKey(KEY_SLACK_NOTIFICATION_LEVEL) ? NotificationLevel.valueOf(settings.get(KEY_SLACK_NOTIFICATION_LEVEL)) : NotificationLevel.VERBOSE,
                 settings.containsKey(KEY_SLACK_NOTIFICATION_PR_LEVEL) ? NotificationLevel.valueOf(settings.get(KEY_SLACK_NOTIFICATION_PR_LEVEL)) : NotificationLevel.VERBOSE,
+                Boolean.parseBoolean(settings.get(KEY_SLACK_NOTIFICATION_REQUIRE_CHANNEL_NAME)),
                 Objects.toString(settings.get(KEY_SLACK_CHANNEL_NAME), " ").equals(" ") ? "" : settings.get(KEY_SLACK_CHANNEL_NAME),
                 Objects.toString(settings.get(KEY_SLACK_WEBHOOK_URL),  " ").equals(" ") ? "" : settings.get(KEY_SLACK_WEBHOOK_URL),
                 Objects.toString(settings.get(KEY_SLACK_USER_NAME),    " ").equals(" ") ? "" : settings.get(KEY_SLACK_USER_NAME),
