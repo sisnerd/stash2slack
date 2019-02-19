@@ -53,7 +53,7 @@ public class PullRequestActivityListener {
         SettingsSelector settingsSelector = new SettingsSelector(slackSettingsService,  slackGlobalSettingsService, repository);
         SlackSettings resolvedSlackSettings = settingsSelector.getResolvedSlackSettings();
 
-        if (resolvedSlackSettings.isSlackNotificationsEnabled()) {
+        if (resolvedSlackSettings.isSlackNotificationsEnabled() && resolvedSlackSettings.isSlackNotificationsAllowed()) {
 
             String localHookUrl = resolvedSlackSettings.getSlackWebHookUrl();
             WebHookSelector hookSelector = new WebHookSelector(globalHookUrl, localHookUrl);

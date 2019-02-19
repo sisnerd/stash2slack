@@ -17,6 +17,7 @@ public class ImmutableSlackSettings implements SlackSettings {
     private final boolean slackNotificationsNeedsWorkEnabled;
     private final NotificationLevel notificationLevel;
     private final NotificationLevel notificationPrLevel;
+    private final boolean slackNotificationsRequireChannelName;
     private final String slackChannelName;
     private final String slackWebHookUrl;
     private final String slackUsername;
@@ -39,6 +40,7 @@ public class ImmutableSlackSettings implements SlackSettings {
                                   boolean slackNotificationsNeedsWorkEnabled,
                                   NotificationLevel notificationLevel,
                                   NotificationLevel notificationPrLevel,
+                                  boolean slackNotificationsRequireChannelName,
                                   String slackChannelName,
                                   String slackWebHookUrl,
                                   String slackUsername,
@@ -59,6 +61,7 @@ public class ImmutableSlackSettings implements SlackSettings {
         this.slackNotificationsNeedsWorkEnabled = slackNotificationsNeedsWorkEnabled;
         this.notificationLevel = notificationLevel;
         this.notificationPrLevel = notificationPrLevel;
+        this.slackNotificationsRequireChannelName = slackNotificationsRequireChannelName;
         this.slackChannelName = slackChannelName;
         this.slackWebHookUrl = slackWebHookUrl;
         this.slackUsername = slackUsername;
@@ -126,8 +129,24 @@ public class ImmutableSlackSettings implements SlackSettings {
         return notificationPrLevel;
     }
 
+    public boolean isSlackNotificationsRequireChannelName() {
+        return slackNotificationsRequireChannelName;
+    }
+
+    public boolean isSlackNotificationsAllowed() {
+        if (isSlackNotificationsRequireChannelName() && isSlackChannelNameEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public String getSlackChannelName() {
         return slackChannelName;
+    }
+
+    public boolean isSlackChannelNameEmpty() {
+        return getSlackChannelName().equals(new String());
     }
 
     public String getSlackWebHookUrl() {

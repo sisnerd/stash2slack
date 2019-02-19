@@ -56,7 +56,7 @@ public class RepositoryPushActivityListener {
         SettingsSelector settingsSelector = new SettingsSelector(slackSettingsService,  slackGlobalSettingsService, repository);
         SlackSettings resolvedSlackSettings = settingsSelector.getResolvedSlackSettings();
 
-        if (resolvedSlackSettings.isSlackNotificationsEnabledForPush()) {
+        if (resolvedSlackSettings.isSlackNotificationsEnabledForPush() && resolvedSlackSettings.isSlackNotificationsAllowed()) {
             String localHookUrl = slackSettings.getSlackWebHookUrl();
 
             //TODO: Do we need the WebHookSelector? Already resolved.

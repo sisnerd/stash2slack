@@ -15,6 +15,7 @@ public interface SlackSettings {
     boolean isSlackNotificationsEnabledForPush();
     boolean isSlackNotificationsEnabledForPersonal();
     boolean isSlackNotificationsNeedsWorkEnabled();
+    boolean isSlackNotificationsRequireChannelName();
     NotificationLevel getNotificationLevel();
     NotificationLevel getNotificationPrLevel();
     String getSlackChannelName();
@@ -22,4 +23,6 @@ public interface SlackSettings {
     String getSlackUsername();
     String getSlackIconUrl();
     String getSlackIconEmoji();
+    boolean isSlackNotificationsAllowed();
+    boolean isSlackChannelNameEmpty();
 }
